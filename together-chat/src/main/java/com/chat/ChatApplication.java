@@ -12,7 +12,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 public class ChatApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(MallCartApplication.class, args);
+        SpringApplication.run(ChatApplication.class, args);
     }
 
 }
