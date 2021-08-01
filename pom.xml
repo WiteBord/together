@@ -12,6 +12,7 @@
    <modules>
        <module>together-backstage</module>
        <module>together-chat</module>
+       <module>together-common</module>
        <module>together-gateway</module>
        <module>together-room</module>
        <module>together-member</module>
