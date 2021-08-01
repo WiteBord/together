@@ -15,6 +15,7 @@
        <module>together-gateway</module>
        <module>together-room</module>
        <module>together-member</module>
+       <module>together-common</module>
    </modules>
 
 
