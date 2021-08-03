@@ -4,3 +4,4 @@ play together!
 + Spring Cloud Alibaba
 + 数据库:mysql8.0
 + Mybatis-plus
++ Redis
