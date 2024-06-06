@@ -9,4 +9,6 @@ import java.util.List;
 @Service
 public interface QuestionsDao {
     List<QuestionsDto> searchQuestion(String word,String queClassId);
+    void addQuestion(QuestionsDto questionsDto);
+    void deleteQuestion(QuestionsDto questionsDto);
 }

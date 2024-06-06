@@ -44,4 +44,46 @@ public class QueServiceImpl implements QueService {
     public List<QuesClassEntity> getQuesClass() {
         return quesClassDao.getQuesClass();
     }
+
+    @Override
+    public void addQuesClass(String className) {
+        quesClassDao.addQuesClass(className);
+    }
+
+    @Override
+    public void updateQuesClass(QuesClassEntity quesClassEntity) {
+        quesClassDao.updateQuesClass(quesClassEntity);
+    }
+
+    @Override
+    public void deleteQuesClass(QuesClassEntity quesClassEntity) {
+        List<QuestionsDto> questionsList=questionsDao.searchQuestion("",quesClassEntity.getId());//关键词搜题
+        questionsList.forEach(this::deleteQuestion);
+        quesClassDao.deleteQuesClass(quesClassEntity);
+    }
+
+    @Override
+    public void addOptions(List<OptionsEntity> optionsEntityList) {
+        optionsEntityList.forEach(opt -> optionsDao.addOption(opt));
+    }
+
+    @Override
+    public String addQuestion(QuestionsDto questionsDto) {
+        questionsDao.addQuestion(questionsDto);
+        return questionsDto.getId();
+    }
+
+    @Override
+    public void deleteQuestion(QuestionsDto questionsDto) {
+        OptionsEntity optionsEntity=new OptionsEntity();
+        optionsEntity.setQuestionsId(questionsDto.getId());
+        optionsDao.deleteOptions(optionsEntity);
+
+        questionsDao.deleteQuestion(questionsDto);
+    }
+
+    @Override
+    public void deleteOptions(OptionsEntity optionsEntity) {
+        optionsDao.deleteOptions(optionsEntity);
+    }
 }

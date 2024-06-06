@@ -6,4 +6,16 @@
     select * from quesclass
      </select>
 
+    <insert id="addQuesClass" parameterType="String">
+        insert INTO quesclass (text)Values(#{className})
+     </insert>
+
+    <update id="updateQuesClass" parameterType="com.questions.entity.QuesClassEntity">
+        update quesclass set text=#{text} where id=#{id}
+     </update>
+
+    <delete id="deleteQuesClass" parameterType="com.questions.entity.QuesClassEntity">
+        delete from quesclass q where q.id=#{id}
+     </delete>
+
 </mapper>

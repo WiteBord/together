@@ -16,4 +16,14 @@
 
     </select>
 
+    <insert id="addQuestion" parameterType="com.questions.dto.QuestionsDto" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        insert into questions (quesclassid,text,que_type,isright) values (#{quesClassId},#{text},#{queType},#{isright})
+     </insert>
+
+    <delete id="deleteQuestion" parameterType="com.questions.dto.QuestionsDto">
+        delete from questions q where q.id=#{id}
+
+
+     </delete>
+
 </mapper>
