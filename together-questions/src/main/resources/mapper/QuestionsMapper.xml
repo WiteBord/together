@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.questions.dao.QuestionsDao">
+    <select id="searchQuestion" parameterType="String" resultType="com.questions.dto.QuestionsDto">
+        SELECT q.text,q.id,q.quesclassid,
+        c.text as quesClasstext,
+        (select d.dict_lable from questions.dict d where q.isright=d.dict_value and d.dict_type='isright') as isright,
+        (select d.dict_lable from questions.dict d where q.que_type=d.dict_value and d.dict_type='que_type') as que_type
+
+
+        FROM questions q,quesclass c WHERE q.text LIKE CONCAT ('%',#{word},'%') and c.id=q.quesclassid
+        <if test="queClassId != null and queClassId != ''">
+            and c.id=#{queClassId}
+        </if>
+
+    </select>
+
+</mapper>

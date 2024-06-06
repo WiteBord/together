@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.questions.dao.OptionsDao">
+    <select id="selectAll" resultType="com.questions.entity.OptionsEntity">
+        select * from options;
+    </select>
+
+    <select id="selectOneQue" parameterType="String" resultType="com.questions.entity.OptionsEntity">
+        SELECT  o.text,o.id,o.questionsid,
+        (select d.dict_lable from questions.dict d where o.isright=d.dict_value and d.dict_type='isright') as isright
+        FROM options o WHERE o.questionsid=#{questionsId};
+    </select>
+
+</mapper>
