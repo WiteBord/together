@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--environments下有多个environment，通过default设置默认数据源-->
+    <environments default="dev">
+        <!--不同的数据源不同的id名-->
+        <environment id="dev">
+            <!--采用JDBC方式对数据库事务进行管理commit/rollback-->
+            <transactionManager type="JDBC"></transactionManager>
+            <!--采用连接池方式管理数据库连接-->
+            <dataSource type="POOLED">
+                <property name="driver" value="org.postgresql.Driver"/>
+                <!--&在xml中是有意义的，因此需要转义，使用&amp;-->
+                <property name="url" value="jdbc:postgresql://192.168.195.16:5433/postgres?currentSchema=questions"/>
+                <property name="username" value="postgres"/>
+                <property name="password" value="123456"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <!--每一个mapper.xml都需要在核心配置文件中注册-->
+    <mappers>
+        <mapper resource="mapper/*.xml"/>
+    </mappers>
+</configuration>
