@@ -12,6 +12,7 @@
    <modules>
        <module>together-common</module>
        <module>together-questions</module>
+       <module>together-pytools</module>
    </modules>
 
 

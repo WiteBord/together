@@ -1,7 +1,4 @@
-# Project exclude paths
-/together-common/target/
-/together-questions/target/
-
+HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
