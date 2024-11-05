@@ -7,6 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 
 @Service
-public interface OfficeService {
+public interface ExcelService {
     HashMap<String,List<List<String>>> readExcel(String filePath);
 }

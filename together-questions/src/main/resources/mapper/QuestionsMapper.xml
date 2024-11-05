@@ -13,8 +13,15 @@
         <if test="queClassId != null and queClassId != ''">
             and c.id=#{queClassId}
         </if>
+        LIMIT #{pageSize} OFFSET (#{pageNum} - 1) * #{pageSize};
 
     </select>
+
+
+    <select id="searchQuesNum" parameterType="String" resultType="Integer">
+        SELECT count(*) FROM questions q WHERE q.text LIKE CONCAT ('%',#{word},'%') and q.quesclassid=#{queClassId}
+    </select>
+
 
     <insert id="addQuestion" parameterType="com.questions.dto.QuestionsDto" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         insert into questions (quesclassid,text,que_type,isright) values (#{quesClassId},#{text},#{queType},#{isright})

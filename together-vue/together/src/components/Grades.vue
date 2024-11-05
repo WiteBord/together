@@ -4,7 +4,7 @@
       <el-col :span="14">
         <el-card shadow="hover" style="width: 100%; padding:0px;">
           <div slot="header" class="clearfix">
-            <span>中兴跑马团</span>
+            <span>AAa</span>
           </div>
           <div style="width: 100%; display: inline-block; ">
             <el-col :span="4"><el-result style="padding:0px;"  icon="success" :title="teamZX[0]"></el-result></el-col>
@@ -23,9 +23,9 @@
           <div slot="header" class="clearfix">
             <span>实时排名</span>
           </div>
-          <div style="font-size: 18px;text-align: center;">中信跑码团  XX分</div>
-          <div style="font-size: 18px;text-align: center;">雨夹雪   XX分</div>
-          <div style="font-size: 18px;text-align: center;">国创极客战队   XX分</div>
+          <div style="font-size: 18px;text-align: center;">aa  XX分</div>
+          <div style="font-size: 18px;text-align: center;">bb   XX分</div>
+          <div style="font-size: 18px;text-align: center;">cc   XX分</div>
         </el-card>
       </el-col>
     </el-row>
@@ -38,7 +38,7 @@ export default {
   name: 'Grades',
   data () {
     return {
-      teamZX:[10,12,13,14,15]
+      teamZX:["10",12,13,14,15]
     }
   },
   methods:{

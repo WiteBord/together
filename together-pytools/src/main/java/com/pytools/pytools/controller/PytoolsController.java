@@ -14,11 +14,11 @@ import java.util.List;
 public class PytoolsController {
 
     @Autowired
-    OfficeService officeService;
+    ExcelService excelService;
 
     @PostMapping("/readExcel")
     public HashMap<String,List<List<String>>> addQuesClass(){
-        return officeService.readExcel("C:\\Users\\hejunlin\\Desktop\\aaa.xlsx");
+        return excelService.readExcel("C:\\Users\\hejunlin\\Desktop\\aaa.xlsx");
     }
 
 

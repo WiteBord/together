@@ -11,7 +11,8 @@ import java.util.List;
 
 @Service
 public interface QueService {
-    List<QuestionsDto> searchQuestion(String word, String queClassId);
+    List<QuestionsDto> searchQuestion(String word, String queClassId,Integer pageSize,Integer pageNum);
+    Integer searchQuesNum(String word,String queClassId);
     List<QuesClassEntity> getQuesClass();
     void addQuesClass(String className);
     void updateQuesClass(QuesClassEntity quesClassEntity);

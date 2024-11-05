@@ -25,12 +25,17 @@ public class QuestionsController {
 
 
     @GetMapping("/searchQues")//搜索
-    public List<QuestionsDto> searchQues(String word,String queClassId){
+    public List<QuestionsDto> searchQues(String word,String queClassId,Integer pageSize,Integer pageNum){
         List<QuestionsDto> questionsList=new ArrayList<>();
-        questionsList=queService.searchQuestion(word,queClassId);
+        questionsList=queService.searchQuestion(word,queClassId,pageSize,pageNum);
         return questionsList;
     }
 
+    @GetMapping("/searchQuesNum")//搜索
+    public Integer searchQuesNum(String word,String queClassId){
+        Integer QuesNum=queService.searchQuesNum(word,queClassId);
+        return QuesNum;
+    }
 
 
     @GetMapping("/getQuesClass")

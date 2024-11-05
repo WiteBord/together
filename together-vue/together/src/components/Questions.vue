@@ -47,40 +47,57 @@
       </el-col>
       <!-- 搜索按钮 -->
       <el-col :span="4">
-        <el-button @click="search(searchWord,queClassValue)" type="primary" :loading="isloading">搜索</el-button>
+        <el-button @click="search(searchWord,queClassValue,pageSize,currentPage)" type="primary" :loading="isloading">搜索</el-button>
       </el-col>
     </el-row>
     <!-- 结果呈现 -->
     <el-row v-for="(que, queindex) in quesData" :key="queindex">
-      <el-descriptions class="quesTitle" v-bind:title="queindex+1+'. '+'('+que.queType+')'+que.text" :column="5" border>
+      <!-- 题目-->
+      <el-descriptions class="quesTitle" v-bind:title="pageSize*(currentPage-1)+queindex+1+'. '+'('+que.queType+')'+que.text" :column="5" border>
+      
         <!-- 展示判断题答案 -->
-        <el-descriptions-item :content-class-name="isright(que.isright)" v-if="que.isright!=null" label="答案">
+        <el-descriptions-item  :content-class-name="chooseIsright(que.isright,que)" v-if="que.isright!=null" label="答案">
+          <div v-if="que.seeAns">
           {{ que.isright }}
+          </div>
         </el-descriptions-item>
 
         <!-- 展示选择题选项和答案 -->
-        <el-descriptions-item :content-class-name="isright(opt.isright)" v-else v-for="(opt,optidx) in que.optionsEntityList" :key="optidx" :label="String.fromCharCode(65+optidx)">
-          {{opt.text}}({{ opt.isright }})
+        <el-descriptions-item :content-class-name="isright(opt.isright,que)" v-else v-for="(opt,optidx) in que.optionsEntityList" :key="optidx" :label="String.fromCharCode(65+optidx)">
+          {{opt.text}}
+          <div v-if="que.seeAns">
+            ({{ opt.isright }})
+          </div>
         </el-descriptions-item>
       </el-descriptions>
 
       <!-- 展示所属题库 -->
       <el-descriptions :column="1" border>
-        <el-descriptions-item label="属于题库">{{ que.quesClasstext }}</el-descriptions-item>
+        <el-descriptions-item label="属于题库">{{ que.quesClasstext }}
+          <el-button @click="que.seeAns=!que.seeAns" type="info">看答案</el-button>
+        </el-descriptions-item>
       </el-descriptions>
-
-
-
     </el-row>
 
     
   </el-main>
-  <el-footer></el-footer>
+  <el-footer>
+    <el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page="currentPage"
+      :page-sizes="[50, 100, 250, 500]"
+      :page-size="pageSize"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="pageAllNum">
+    </el-pagination>
+
+  </el-footer>
 </el-container>
 </template>
 
 <script>
-import { searchQueByWord,getQueClass,addQuesClass
+import { searchQueByWord,getQueClass,addQuesClass,searchQueNumByWord
  } from '@/network/api/questionsApi.js'
 
 export default {
@@ -97,17 +114,29 @@ export default {
         className:''
 
 
-      }
+      },
+      pageSize:50,
+      currentPage:1,
+      pageAllNum:0
       
     }
   },
   methods:{
     //查找题目
-    search(searchWord,queClassValue){
+    search(searchWord,queClassValue,pageSize,currentPage){
       this.isloading=true
-      searchQueByWord(searchWord,queClassValue).then((data)=>{
+      currentPage=1
+      this.currentPage=1
+      searchQueNumByWord(searchWord,queClassValue).then((data)=>{
+        this.pageAllNum=data.data
+      })
+      searchQueByWord(searchWord,queClassValue,pageSize,currentPage).then((data)=>{
         this.quesData=data.data
         this.isloading=false
+        //动态添加属性，否则不会被双向绑定！！！
+        for(var i=0;i<this.quesData.length;i++){
+          this.$set(this.quesData[i],'seeAns',false)
+        }
       })
     },
     addQuesClass(className){
@@ -116,11 +145,37 @@ export default {
       })
     },
     //修改答案背景颜色
-    isright(isright){
-      if(isright==='正确')
+    isright(isright,que){
+      if(isright==='正确'&&que.seeAns===true)
       {
         return 'right'
       }
+    },
+    chooseIsright(isright,que){
+      if(isright==='正确'&&que.seeAns===true)
+      {
+        return 'right'
+      }
+      else if(que.seeAns===true){
+        return 'false'
+      }
+    },
+    handleSizeChange(val) {
+      //console.log(`每页 ${val} 条`);
+      this.pageSize=val
+    },
+    handleCurrentChange(val) {
+      //console.log(`当前页: ${val}`);
+      this.currentPage=val
+      searchQueByWord(this.searchWord,this.queClassValue,this.pageSize,this.currentPage).then((data)=>{
+        console.log(data,this.currentPage)
+        this.quesData=data.data
+        this.isloading=false
+        //动态添加属性，否则不会被双向绑定！！！
+        for(var i=0;i<this.quesData.length;i++){
+          this.$set(this.quesData[i],'seeAns',false)
+        }
+      })
     }
   },
   created() {  
@@ -139,6 +194,9 @@ export default {
 
   .right {
     background: #cdffb3;
+  }
+  .false{
+    background:#ff9583;
   }
   .quesTitle {
     text-align: left;

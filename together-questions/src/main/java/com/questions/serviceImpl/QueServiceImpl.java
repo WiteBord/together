@@ -27,8 +27,8 @@ public class QueServiceImpl implements QueService {
 
     @Override
     //TODO: 一瞬千击，数据库爆破隐患
-    public List<QuestionsDto> searchQuestion(String word,String queClassId) {
-        List<QuestionsDto> questionsList=questionsDao.searchQuestion(word,queClassId);//关键词搜题
+    public List<QuestionsDto> searchQuestion(String word,String queClassId,Integer pageSize,Integer pageNum) {
+        List<QuestionsDto> questionsList=questionsDao.searchQuestion(word,queClassId,pageSize,pageNum);//关键词搜题
 
 
         for(QuestionsDto que : questionsList){
@@ -39,6 +39,12 @@ public class QueServiceImpl implements QueService {
 
         return questionsList;
     }
+
+    public Integer searchQuesNum(String word,String queClassId){
+        Integer quesNum=questionsDao.searchQuesNum(word,queClassId);
+        return quesNum;
+    }
+
 
     @Override
     public List<QuesClassEntity> getQuesClass() {
@@ -57,7 +63,7 @@ public class QueServiceImpl implements QueService {
 
     @Override
     public void deleteQuesClass(QuesClassEntity quesClassEntity) {
-        List<QuestionsDto> questionsList=questionsDao.searchQuestion("",quesClassEntity.getId());//关键词搜题
+        List<QuestionsDto> questionsList=questionsDao.searchQuestion("",quesClassEntity.getId(),null,null);//关键词搜题
         questionsList.forEach(this::deleteQuestion);
         quesClassDao.deleteQuesClass(quesClassEntity);
     }

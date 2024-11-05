@@ -1,14 +1,12 @@
 package com.pytools.pytools.serviceImpl;
 
-import com.pytools.pytools.service.OfficeService;
+import com.pytools.pytools.service.ExcelService;
 
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.*;
 
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -18,7 +16,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 
 @Service
-public class OfficeServiceImpl implements OfficeService {
+public class ExcelServiceImpl implements ExcelService {
     @Override
     public HashMap<String,List<List<String>>> readExcel(String filePath) {
         HashMap<String,List<List<String>>> xlsMap=new HashMap<>();
