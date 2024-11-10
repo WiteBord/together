@@ -25,15 +25,15 @@ public class QuestionsController {
 
 
     @GetMapping("/searchQues")//搜索
-    public List<QuestionsDto> searchQues(String word,String queClassId,Integer pageSize,Integer pageNum){
+    public List<QuestionsDto> searchQues(String word,String queType,String queClassId,Integer pageSize,Integer pageNum){
         List<QuestionsDto> questionsList=new ArrayList<>();
-        questionsList=queService.searchQuestion(word,queClassId,pageSize,pageNum);
+        questionsList=queService.searchQuestion(word,queType,queClassId,pageSize,pageNum);
         return questionsList;
     }
 
     @GetMapping("/searchQuesNum")//搜索
-    public Integer searchQuesNum(String word,String queClassId){
-        Integer QuesNum=queService.searchQuesNum(word,queClassId);
+    public Integer searchQuesNum(String word,String queType,String queClassId){
+        Integer QuesNum=queService.searchQuesNum(word,queType,queClassId);
         return QuesNum;
     }
 

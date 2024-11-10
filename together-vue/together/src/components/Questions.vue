@@ -41,13 +41,24 @@
           </el-option>
         </el-select>
       </el-col>
+      <!-- 题型选择框 -->
+      <el-col :span="2">
+        <el-select v-model="queTypeValue" placeholder="题型" filterable clearable>
+          <el-option
+            v-for="item in queTypeData"
+            :key="item.id"
+            :label="item.text"
+            :value="item.id">
+          </el-option>
+        </el-select>
+      </el-col>
       <!-- 搜索栏 -->
       <el-col :span="16">
         <el-input v-model="searchWord" placeholder="搜索题目内容"></el-input>
       </el-col>
       <!-- 搜索按钮 -->
-      <el-col :span="4">
-        <el-button @click="search(searchWord,queClassValue,pageSize,currentPage)" type="primary" :loading="isloading">搜索</el-button>
+      <el-col :span="2">
+        <el-button @click="search(searchWord,queTypeValue,queClassValue,pageSize,currentPage)" type="primary" :loading="isloading">搜索</el-button>
       </el-col>
     </el-row>
     <!-- 结果呈现 -->
@@ -117,20 +128,30 @@ export default {
       },
       pageSize:50,
       currentPage:1,
-      pageAllNum:0
+      pageAllNum:0,
+      queTypeData:[
+        {id:'1',
+          text:'单选'
+        },{id:'3',
+          text:'判断'
+        },{id:'2',
+          text:'多选'
+        },
+      ],
+      queTypeValue:'',
       
     }
   },
   methods:{
     //查找题目
-    search(searchWord,queClassValue,pageSize,currentPage){
+    search(searchWord,queTypeValue,queClassValue,pageSize,currentPage){
       this.isloading=true
       currentPage=1
       this.currentPage=1
-      searchQueNumByWord(searchWord,queClassValue).then((data)=>{
+      searchQueNumByWord(searchWord,queTypeValue,queClassValue).then((data)=>{
         this.pageAllNum=data.data
       })
-      searchQueByWord(searchWord,queClassValue,pageSize,currentPage).then((data)=>{
+      searchQueByWord(searchWord,queTypeValue,queClassValue,pageSize,currentPage).then((data)=>{
         this.quesData=data.data
         this.isloading=false
         //动态添加属性，否则不会被双向绑定！！！
@@ -167,7 +188,7 @@ export default {
     handleCurrentChange(val) {
       //console.log(`当前页: ${val}`);
       this.currentPage=val
-      searchQueByWord(this.searchWord,this.queClassValue,this.pageSize,this.currentPage).then((data)=>{
+      searchQueByWord(this.searchWord,this.queTypeValue,this.queClassValue,this.pageSize,this.currentPage).then((data)=>{
         console.log(data,this.currentPage)
         this.quesData=data.data
         this.isloading=false
